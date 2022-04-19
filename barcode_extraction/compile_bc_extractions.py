@@ -74,11 +74,11 @@ def get_barcode(row):
     dbc_counts = [int(i) for i in str(row['dbc_counts']).split(';')]
     ebc_counts = [int(i) for i in str(row['ebc_counts']).split(';')]
     if len(dbc_counts) > 1:
-        dbc_check = (dbc_counts[0] >= 2 and dbc_counts[0]/dbc_counts[1] >= 4)
+        dbc_check = (dbc_counts[0] >= 2 and dbc_counts[0]/dbc_counts[1] >= 3)
     else:
         dbc_check = dbc_counts[0] >= 2
     if len(ebc_counts) > 1:
-        ebc_check = (ebc_counts[0] >= 2 and ebc_counts[0]/ebc_counts[1] >= 4)
+        ebc_check = (ebc_counts[0] >= 2 and ebc_counts[0]/ebc_counts[1] >= 3)
     else:
         ebc_check = ebc_counts[0] >= 2
     if dbc_check and ebc_check:
@@ -104,8 +104,8 @@ def get_bfas(bc):
 fitd = pd.concat(fitds)
 fitd['BFAs'] = fitd['Barcode'].apply(get_bfas)
 
-td = bcd[['Barcode', 'File']].merge(fitd[['Barcode', 'BFAs']], on='Barcode', how='left')
-td = td[td['Barcode'].notnull()].drop_duplicates()
+td = bcd.merge(fitd[['Barcode', 'BFAs', 'Home_Environment']].drop_duplicates(), on='Barcode', how='left')
+td = td[td['Barcode'].notnull()]
 
 # Adding file and folder info
 folder_names = [
@@ -141,4 +141,3 @@ def get_st(f):
 td['Folder'] = td['File'].apply(get_sn)
 td['Strain'] = td['File'].apply(get_st)
 td.to_csv('../Final_data_sets/bc_assignments_plus.csv', index=False)
-    
