@@ -75,7 +75,7 @@ for env_name in envs:
     print(env_name, [int(i[i.index('Time')+4:]) for i in all_tps])
     # making separate barcode columns - backwards compatible with this old bc exclusion stuff
     d['Environment.BC'] = d['Barcode'].apply(lambda b: b.split('_')[1])
-    d['Diverse.BC'] = d['Barcode'].apply(lambda b: b.split('_')[2])
+    d['Diverse.BC'] = d['Barcode'].apply(lambda b: b.split('_')[0])
     d['Full.BC'] = d['Environment.BC']+d['Diverse.BC']
     all_ebcs = set(d['Environment.BC'])
     use_ebcs = [i for i in all_ebcs if short_env_name in ed.setdefault(i, 'unknown')]
