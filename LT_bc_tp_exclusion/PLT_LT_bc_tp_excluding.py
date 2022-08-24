@@ -66,7 +66,7 @@ with open(ebc_exclude_include_file, 'r') as infile:
 print('Excluded timepoints', tp_exclude)
 
 for env_name in envs:
-    short_env_name = '_'.join(env_name.split('_')[:-1])
+    short_env_name = env_name.split('-')[0]
     if 'FLC32' in short_env_name or 'M3' in short_env_name:
         short_env_name = short_env_name.replace('FLC32', 'YPD').replace('M3', 'SC')
     d = pd.read_csv(input_base + env_name + '_lineage_tracking_reads.csv')
