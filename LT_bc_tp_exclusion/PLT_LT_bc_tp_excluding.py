@@ -1,4 +1,5 @@
 import pandas as pd
+import pyarrow
 import numpy as np
 import csv
 from collections import defaultdict, Counter
@@ -92,3 +93,4 @@ for env_name in envs:
     d_use = d.loc[d['Environment.BC'].isin(use_ebcs)].loc[~d['Full.BC'].isin(excluded_full_bcs)]
 
     d_use[['Barcode']+all_tps].to_csv(output_base + env_name + '_clean.csv', index=False)
+    d_use[['Barcode']+all_tps].to_parquet(output_base + env_name + '_clean.parquet', index=False)
